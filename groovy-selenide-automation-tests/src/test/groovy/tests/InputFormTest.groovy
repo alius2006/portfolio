@@ -1,5 +1,6 @@
 package tests
 
+import dto.InputFormDto
 import pages.InputFormPage
 import pages.LandingPage
 
@@ -9,6 +10,9 @@ import static enums.TreeMenuItemsSecondLevel.INPUT_FORM_SUBMIT
 class InputFormTest extends AbstractBaseTest {
 
     def "Input form"() {
+        given:
+        def testInputForm = InputFormDto.getDefault()
+
         when: "Navigate through the tree menu to the Input Form Submit page"
         LandingPage.navigateToTreeFirstLevel(INPUT_FORMS, INPUT_FORM_SUBMIT)
 
@@ -16,5 +20,9 @@ class InputFormTest extends AbstractBaseTest {
         new InputFormPage().waitForPageLoad()
 
         when: "Fill in the form"
+        InputFormPage.setWholeForm(testInputForm)
+
+        then: "Check the outcome"
+        assert true // The form does nothing
     }
 }

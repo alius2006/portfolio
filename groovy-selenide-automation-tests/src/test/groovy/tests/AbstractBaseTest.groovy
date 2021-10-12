@@ -20,7 +20,7 @@ class AbstractBaseTest extends Specification {
         Configuration.browser = "chrome"
     }
 
-    public static final String BASE_URL = "https://www.seleniumeasy.com/test/"
+    public static final String BASE_URL = "https://demo.seleniumeasy.com/"
 
     public static final Duration TIMEOUT_SHORT = Duration.ofSeconds(4)
     public static final Duration TIMEOUT_MID = Duration.ofSeconds(8)

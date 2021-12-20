@@ -5,8 +5,8 @@ class JsonHelper {
         byte[] bytes
 
         try {
-            bytes = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResourceAsStream(path)).readAllBytes();
-        } catch (IOException | NullPointerException e) {
+            bytes = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResourceAsStream(path)).readAllBytes()
+        } catch (IOException | NullPointerException ignored) {
             bytes = null
         }
         return new String(bytes)

@@ -115,7 +115,7 @@ class SampleTest extends AbstractBaseSpec {
         if (id != null) delete(id)
     }
 
-    def "PUT - happy path - Modify an existing user by PUT and verify modified by GET"() {
+    def "PUT - happy path - modify an existing user by PUT and verify modified by GET"() {
         given: "POST a test user"
         def testUser1 = UserDTO.getDefault()
         def testUser2 = new UserDTO(getRandomEmail(), "New name", "female", "inactive")

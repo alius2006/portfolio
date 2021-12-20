@@ -1,0 +1,11 @@
+
+
+FAILED: Smoke test
+08:26:42.197114800
+SEVERE: https://demo.seleniumeasy.com/ 20 Mixed Content: The page at 'https://demo.seleniumeasy.com/' was loaded over HTTPS, but requested an insecure stylesheet 'http://cdn.bootcss.com/animate.css/3.5.1/animate.min.css'. This request has been blocked; the content must be served over HTTPS.
+SEVERE: https://demo.seleniumeasy.com/ - Mixed Content: The page at 'https://demo.seleniumeasy.com/' was loaded over HTTPS, but requested an insecure stylesheet 'http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700'. This request has been blocked; the content must be served over HTTPS.
+SEVERE: https://www.seleniumeasy.com/test/img/lappy.jpg - Failed to load resource: the server responded with a status of 404 ()
+SEVERE: https://www.seleniumeasy.com/test/img/seasy.png - Failed to load resource: the server responded with a status of 404 ()
+SEVERE: https://demo.seleniumeasy.com/ - Mixed Content: The page at 'https://demo.seleniumeasy.com/' was loaded over HTTPS, but requested an insecure favicon 'http://www.seleniumeasy.com/sites/default/files/favicon_0_0.ico'. This request has been blocked; the content must be served over HTTPS.
+SEVERE: https://www.seleniumeasy.com/test/img/lappy.jpg - Failed to load resource: the server responded with a status of 404 ()
+SEVERE: https://demo.seleniumeasy.com/input-form-demo.html - Mixed Content: The page at 'https://demo.seleniumeasy.com/input-form-demo.html' was loaded over HTTPS, but requested an insecure favicon 'http://www.seleniumeasy.com/sites/default/files/favicon_0_0.ico'. This request has been blocked; the content must be served over HTTPS.

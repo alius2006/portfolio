@@ -1,0 +1,6 @@
+{
+  "email": "string",
+  "name": "My name",
+  "gender": "male",
+  "status": "active"
+}

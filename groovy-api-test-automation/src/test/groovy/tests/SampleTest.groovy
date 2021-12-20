@@ -1,6 +1,8 @@
 package tests
 
 import dto.UserDTO
+import groovy.json.JsonSlurper
+import helpers.JsonHelper
 import io.restassured.RestAssured
 import org.apache.commons.lang3.StringUtils
 import org.junit.FixMethodOrder
@@ -180,6 +182,36 @@ class SampleTest extends AbstractBaseSpec {
         responseDelete2.then()
                 .statusCode(404)
                 .body("data.message", equalTo("Resource not found"))
+    }
+
+    def "POST from JSON"() {
+        given:
+        def testUserString = JsonHelper.loadJson("user.json")
+        def testUserJson = new JsonSlurper().parseText(testUserString)
+        testUserJson["email"] = getRandomEmail()
+        def testUser = new UserDTO(
+                testUserJson["email"].toString(),
+                testUserJson["name"].toString(),
+                testUserJson["gender"].toString(),
+                testUserJson["status"].toString()
+        )
+
+        when:
+        def response = post(testUser)
+        Integer id = response.getBody().jsonPath().get("data.id")
+
+        then: "Verify response"
+        reportInfo "Response body: " + response.getBody().asString()
+        response.then()
+                .statusCode(201)
+                .body("data.id", is(not(null)))
+                .body("data.name", equalTo(testUserJson["name"]))
+                .body("data.email", equalTo(testUserJson["email"]))
+                .body("data.gender", equalTo(testUserJson["gender"]))
+                .body("data.status", equalTo(testUserJson["status"]))
+
+        cleanup:
+        if (id != null) delete(id)
     }
 
     private static def post(UserDTO user) {

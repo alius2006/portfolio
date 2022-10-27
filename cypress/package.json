@@ -1,0 +1,31 @@
+{
+  "name": "cypress",
+  "version": "1.0.0",
+  "description": "Cypress test automation example",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "cypress open --browser chrome --e2e"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alius2006/portfolio.git"
+  },
+  "keywords": [
+    "cypress",
+    "test",
+    "automation"
+  ],
+  "author": "alius2006@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alius2006/portfolio/issues"
+  },
+  "homepage": "https://github.com/alius2006/portfolio#readme",
+  "devDependencies": {
+    "cypress": "^10.11.0",
+    "eslint": "^8.15.0",
+    "prettier": "2.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-cypress": "^2.12.1"
+  }
+}

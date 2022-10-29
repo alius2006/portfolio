@@ -7,5 +7,8 @@ module.exports = defineConfig({
     },
     baseUrl: 'https://demo.seleniumeasy.com',
     specPattern: 'cypress/e2e/*.{js,jsx,ts,tsx}',
+    env: {
+      INPUT_FORM_URL: '/input-form-demo.html',
+    }
   },
 });

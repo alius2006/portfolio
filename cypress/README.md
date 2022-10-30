@@ -23,7 +23,7 @@ $ npx cypress-repeat run -n 3 --browser chrome --headless
 To execute single test multiple times use:
 
 ```
-$ npx cypress-repeat run -n 3 --browser chrome --headless --spec "cypress/e2e/api.spec.js"
+$ npx cypress-repeat run -n 3 --browser chrome --headless --spec "cypress/e2e/api.spec.ts"
 ```
 For more details see <a href="https://github.com/bahmutov/cypress-repeat/blob/main/README.md">cypress-repeat
 README.MD</a>

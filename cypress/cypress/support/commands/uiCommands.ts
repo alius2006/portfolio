@@ -1,4 +1,4 @@
-import { navigateToMenuItem } from '../utils/navigationUtils';
+import { navigateToMenuItem } from '../utils/navigationUtils'
 
 Cypress.Commands.add('navigateToInputFormSubmit', () => {
   navigateToMenuItem('Input Forms', 'Input Form Submit')

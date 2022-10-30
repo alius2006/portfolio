@@ -1,6 +1,10 @@
-describe('Form test suite', () => {
+const checkHosting = (haveHosting: boolean): void => {
+  const value = haveHosting ? 'yes' : 'no'
+  cy.get(`[name="hosting"][value="${value}"]`).check()
+}
 
-  const testUrl = Cypress.env('INPUT_FORM_URL')
+describe('Form test suite', () => {
+  const testUrl = Cypress.env('INPUT_FORM_URL') as string
 
   beforeEach(() => {
     cy.visit('/')
@@ -28,11 +32,6 @@ describe('Form test suite', () => {
     checkHosting(false)
     cy.get('[name="comment"]').type('A description of the project')
     cy.get('fieldset button[type="submit"]').click()
-    cy.wait('@postForm');
+    cy.wait('@postForm')
   })
 })
-
-function checkHosting(haveHosting) {
-  const value = haveHosting ? 'yes' : 'no'
-  cy.get(`[name="hosting"][value="${value}"]`).check()
-}

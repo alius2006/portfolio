@@ -1,0 +1,21 @@
+{
+  "id" : "5be77c6a-e43a-4e24-b4f7-e4a3000e2af5",
+  "name" : "token",
+  "request" : {
+    "url" : "/token",
+    "method" : "POST"
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"uuid\":\"33658ee2-7250-4847-a2a1-c2252e11c111\",\"redirect\":false,\"alias\":null,\"actions\":false,\"cors\":false,\"expiry\":false,\"timeout\":0,\"premium\":false,\"user_id\":null,\"password\":false,\"ip\":\"88.103.230.194\",\"user_agent\":\"okhttp\\/4.10.0\",\"default_content\":\"\",\"default_status\":200,\"default_content_type\":\"text\\/plain\",\"premium_expires_at\":null,\"description\":null,\"created_at\":\"2022-11-09 03:45:06\",\"updated_at\":\"2022-11-09 03:45:06\"}",
+    "headers" : {
+      "Server" : "nginx",
+      "Content-Type" : "application/json",
+      "Cache-Control" : "no-cache, private",
+      "Date" : "Wed, 09 Nov 2022 03:45:06 GMT",
+      "X-RateLimit-Limit" : "10",
+      "X-RateLimit-Remaining" : "9"
+    }
+  },
+  "uuid" : "5be77c6a-e43a-4e24-b4f7-e4a3000e2af5"
+}

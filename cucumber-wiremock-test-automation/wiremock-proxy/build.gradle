@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'org.cucumberWiremock'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.github.tomakehurst:wiremock-jre8-standalone:2.34.0'
+}
+
+test {
+    useJUnitPlatform()
+}

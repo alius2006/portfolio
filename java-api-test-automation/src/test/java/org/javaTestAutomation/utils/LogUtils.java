@@ -10,12 +10,12 @@ public class LogUtils {
     private static final int LOG_MAX_CHARS = 84;
 
     public static void printTestSuiteName(String testSuiteName) {
-        printInfo(DateUtils.getCurrentDateAndTime());
-        printUnifiedLogMessage("=".charAt(0), "TestSuite: " + testSuiteName, 1);
+        printInfo(DateUtils.getCurrentDateAndTime("yyyy-MM-dd"));
+        printUnifiedLogMessage("=".charAt(0), "TEST SUITE: " + testSuiteName, 1);
     }
 
     public static void printTestNameString(String testName) {
-        printUnifiedLogMessage("~".charAt(0), testName);
+        printUnifiedLogMessage("~".charAt(0), "TEST: " + testName);
     }
 
     public static void printTestResultString(String testResult) {

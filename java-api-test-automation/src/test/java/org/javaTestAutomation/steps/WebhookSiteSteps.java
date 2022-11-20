@@ -1,8 +1,9 @@
 package org.javaTestAutomation.steps;
 
 import org.javaTestAutomation.api.WebhookSiteApi;
-import org.javaTestAutomation.api.WebhookSiteApi.GetRequestsResponseBody;
-import org.javaTestAutomation.dto.WebhookRequests;
+import org.javaTestAutomation.dto.CreateTokenResponseBodyDto;
+import org.javaTestAutomation.dto.DeleteWebhooksResponseBodyDto;
+import org.javaTestAutomation.dto.WebhooksDto;
 import org.javaTestAutomation.utils.LogUtils;
 import org.javaTestAutomation.utils.RetrofitUtils;
 import org.javaTestAutomation.utils.SleepUtils;
@@ -19,38 +20,87 @@ public class WebhookSiteSteps {
     private static final int WEBHOOK_API_RETRIES = Integer.parseInt(System.getProperty("WEBHOOK_API_RETRIES"));
     private static final int WEBHOOK_CYCLE_SLEEP_LENGTH = Integer.parseInt(System.getProperty("WEBHOOK_CYCLES_SLEEP_LENGTH"));
 
-    private static final WebhookSiteApi unauthorizedApi = RetrofitUtils.getRetrofit(BASE_URL).create(WebhookSiteApi.class);
+    private static final WebhookSiteApi webhookSiteApi = RetrofitUtils.getRetrofit(BASE_URL).create(WebhookSiteApi.class);
     private final String token;
-    private final WebhookSiteApi authorizedApi;
 
+
+    /**
+     * Default constructor, creates a new webhook site token
+     */
     public WebhookSiteSteps() {
         token = createWebhookSiteWebhook();
-        authorizedApi = getWebhookSiteApi(token);
-    }
-
-    public WebhookSiteSteps(String customToken) {
-        token = customToken;
-        authorizedApi = getWebhookSiteApi(token);
-    }
-
-    public Response<GetRequestsResponseBody> getWebhooks() {
-        return getWebhooks(null, null);
-    }
-
-    public Response<GetRequestsResponseBody> getWebhooks(String sorting, String query) {
-        var response = (Response<GetRequestsResponseBody>) webhookSiteCall(
-                authorizedApi.getRequests(sorting, query)
-        );
-        return response;
     }
 
     /**
-     * Create an authorized webhook site api with a token
+     * Use this  constructor to use an existing token
      */
-    private static WebhookSiteApi getWebhookSiteApi(String webhookSiteToken) {
+    public WebhookSiteSteps(String customToken) {
+        token = customToken;
+    }
 
-        var webhookSiteUrl = BASE_URL + "token/" + webhookSiteToken + "/";
-        return RetrofitUtils.getRetrofit(webhookSiteUrl).create(WebhookSiteApi.class);
+    /**
+     * GET all webhook site webhooks
+     */
+    public WebhooksDto getWebhooks() {
+        return getWebhooks(null, null);
+    }
+
+    /**
+     * GET webhooks specified by sorting and a search query
+     *
+     * @param sorting newest/oldest
+     * @param query search string
+     *
+     * @example getWebhooks("newest", "searchForThis")
+     */
+    public WebhooksDto getWebhooks(String sorting, String query) {
+        LogUtils.printInfo("Getting webhooks...");
+        var response = (Response<WebhooksDto>) webhookSiteCall(
+                webhookSiteApi.getRequests(token, sorting, query)
+        );
+
+        Assert.assertEquals(200, response.code());
+        Assert.assertNotNull(response.body());
+
+        var data = response.body().data;
+        LogUtils.printInfo("Found " + data.size() + " webhooks.");
+        for (int i = 0; i < data.size(); i++) {
+            LogUtils.printDetails("#" + (i+1) + ": " + data.get(i).content);
+        }
+        LogUtils.printEmptyLine();
+        return response.body();
+    }
+
+    /**
+     * DELETE all webhooks from webhook site
+     */
+    public void deleteWebhooks() {
+        LogUtils.printInfo("Deleting webhooks...");
+        var response = (Response<DeleteWebhooksResponseBodyDto>) webhookSiteCall(
+                webhookSiteApi.deleteRequests(token)
+        );
+
+        Assert.assertEquals(200, response.code());
+        Assert.assertNotNull(response.body());
+        Assert.assertTrue(response.body().status);
+
+        LogUtils.printInfo("Webhooks deleted.");
+        LogUtils.printEmptyLine();
+    }
+
+    /**
+     * POST a custom request to the webhook site
+     */
+    public void postRequest(Object body) {
+        LogUtils.printInfo("Posting custom webhook request...");
+        var response = (Response<Void>) webhookSiteCall(
+                webhookSiteApi.postRequest(token, body)
+        );
+
+        Assert.assertEquals(200, response.code());
+
+        LogUtils.printInfo("Request successfully posted.");
+        LogUtils.printEmptyLine();
     }
 
     /**
@@ -58,20 +108,21 @@ public class WebhookSiteSteps {
      */
     private static String createWebhookSiteWebhook() {
         LogUtils.printInfo("Creating webhook (webhook site)...");
-        var createTokenResponse = (Response<WebhookSiteApi.CreateTokenResponseBody>) webhookSiteCall(
-                unauthorizedApi.createWebhookToken()
+        var createTokenResponse = (Response<CreateTokenResponseBodyDto>) webhookSiteCall(
+                webhookSiteApi.createWebhookToken()
         );
 
         Assert.assertNotNull("Webhook site createTokenResponse is null", createTokenResponse);
         Assert.assertNotNull("Webhook site body is null. Response: " + createTokenResponse, createTokenResponse.body());
         Assert.assertNotNull("Webhook UUID is null", createTokenResponse.body().uuid);
+
         LogUtils.printInfo("Webhook site UID: " + createTokenResponse.body().uuid);
         LogUtils.printEmptyLine();
         return createTokenResponse.body().uuid;
     }
 
     /**
-     * Use this for webhook site calls, it catches socket timeout exceptions and unsuccessful responses and then retries.
+     * Use this for webhook site calls. Catches socket timeout exceptions and unsuccessful responses and then retries.
      */
     private static Response<?> webhookSiteCall(Call<?> call) {
         // Try to execute the call.
@@ -113,9 +164,9 @@ public class WebhookSiteSteps {
     /**
      * Get webhooks sorted by newest with query "content:" + search string
      */
-    private String waitForRequest(String content) {
-        Response<WebhookRequests> response = null;
-        LogUtils.printDebug("Looking for a webhook with content query: " + content);
+    public String waitForRequest(String content) {
+        Response<WebhooksDto> response = null;
+        LogUtils.printDebug("Looking for a webhook with content query: " + content + "...");
         // Should sleep already on the first iteration, because of the webhook site's speed
         SleepUtils.sleep(WEBHOOK_CYCLE_SLEEP_LENGTH);
 
@@ -132,8 +183,8 @@ public class WebhookSiteSteps {
                 SleepUtils.sleep(WEBHOOK_CYCLE_SLEEP_LENGTH);
             }
 
-            response = (Response<WebhookRequests>) webhookSiteCall(
-                    authorizedApi.getRequests("newest", "content:" + content)
+            response = (Response<WebhooksDto>) webhookSiteCall(
+                    webhookSiteApi.getRequests(token, "newest", "content:" + content)
             );
 
             if (response == null) {
@@ -174,7 +225,7 @@ public class WebhookSiteSteps {
 
             // On success
             if (response.body().total == 1) {
-                LogUtils.printDebug("Webhook site get requests body is: " + response.body());
+                LogUtils.printDebug("Found exactly one webhook.");
                 break;
             }
         }

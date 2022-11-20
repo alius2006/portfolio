@@ -1,72 +1,31 @@
 package org.javaTestAutomation.api;
 
+import org.javaTestAutomation.dto.CreateTokenResponseBodyDto;
+import org.javaTestAutomation.dto.DeleteWebhooksResponseBodyDto;
+import org.javaTestAutomation.dto.WebhooksDto;
 import retrofit2.Call;
 import retrofit2.http.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public interface WebhookSiteApi {
     @POST("token")
-    Call<CreateTokenResponseBody> createWebhookToken();
+    Call<CreateTokenResponseBodyDto> createWebhookToken();
 
-    @GET("requests")
-    Call<GetRequestsResponseBody> getRequests(
+    @GET("token/{token}/requests")
+    Call<WebhooksDto> getRequests(
+            @Path("token") String token,
             @Query("sorting") String sorting,
             @Query("query") String query
     );
 
-    @DELETE("request")
-    Call<Object> deleteRequests();
+    @DELETE("token/{token}/request")
+    Call<DeleteWebhooksResponseBodyDto> deleteRequests(
+            @Path("token") String token
+    );
 
     @POST("{token}")
     Call<Void> postRequest(
             @Path("token") String token,
             @Body Object object
     );
-
-    class CreateTokenResponseBody {
-        public String uuid;
-        public boolean password;
-    }
-
-    class GetRequestsResponseBody {
-        public List<WebhookDataEntry> data;
-        public int total;
-        public int from;
-        public int to;
-
-    }
-
-    class JobBody {
-        public ArrayList<JobPart> jobParts;
-        public String event;
-    }
-
-    class JobPart{
-        public String uid;
-        public String task;
-    }
-
-
-    class WebhookDataEntry {
-        public String content;
-    }
-
-    class DownloadFileAsyncWebhookContentBody {
-        public String result;
-        public ConnectorAsyncTask connectorAsyncTask;
-    }
-
-    class ConnectorAsyncTask {
-        public String id;
-    }
-
-    class JobErrorBody{
-        public String jobUid;
-        public String error;
-        public String event;
-        public int timestamp;
-    }
 }
 

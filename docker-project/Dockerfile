@@ -1,3 +1,4 @@
-FROM openjdk:12-jdk-alpine
-COPY springbootify.jar springbootify.jar
-CMD ["java","-jar","springbootify.jar"]
+#Create MongoDB Image
+FROM mongo
+MAINTAINER alius2006@gmail.com
+EXPOSE 27017

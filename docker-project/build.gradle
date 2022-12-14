@@ -8,16 +8,12 @@ version '0.1.0'
 // Build docker image
 docker {
     name "${project.name}:${project.version}"
-    files 'springbootify.jar'
 }
 
 // Run docker image as container
 dockerRun {
     name "${project.name}"
     image "${project.name}:${project.version}"
-    ports '8080:8080'
+    ports '27017:27017'
     clean true
 }
-
-// The application should run on http://localhost:8080/doit
-// Stop the application by dockerStop

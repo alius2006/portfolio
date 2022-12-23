@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  database:
+    image: 'mongo'
+    container_name: 'mongoDBDockerProjectContainer'
+    environment:
+      - MONGO_INITDB_DATABASE=dockerProjectDB
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ./mongoInit.js:/docker-entrypoint-initdb.d/mongoInit.js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - '27017:27017'
+
+# mongodb://YourUsername:YourPasswordHere@127.0.0.1:27017/your-database-name

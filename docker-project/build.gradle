@@ -1,19 +1,39 @@
 plugins {
-    id "com.palantir.docker" version "0.22.1"
-    id "com.palantir.docker-run" version "0.22.1"
+    id 'java'
+    id 'com.avast.gradle.docker-compose' version '0.16.11'
 }
 
+dockerCompose {
+    useComposeFiles.add('docker-compose.yml')
+}
+
+apply plugin: "java"
+
+group 'com.dockerProject'
 version '0.1.0'
 
-// Build docker image
-docker {
-    name "${project.name}:${project.version}"
+repositories {
+    mavenCentral()
 }
 
-// Run docker image as container
-dockerRun {
-    name "${project.name}"
-    image "${project.name}:${project.version}"
-    ports '27017:27017'
-    clean true
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket:2.7.3'
+
+    testImplementation 'io.cucumber:cucumber-java:7.6.0'
+    testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.6.0'
+    testImplementation 'org.junit.platform:junit-platform-suite-api:1.9.0'
+    testImplementation 'org.junit.platform:junit-platform-suite-engine:1.9.0'
+    testImplementation 'io.cucumber:cucumber-spring:7.6.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.3'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty("cucumber.junit-platform.naming-strategy", "long")
 }

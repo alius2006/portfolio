@@ -43,7 +43,7 @@ class AbstractBaseTest extends Specification {
     def setupSpec() {
         open(BASE_URL)
         new LandingPage().waitForPageLoad(TIMEOUT_MID)
-        LandingPage.closeAdAlert()
+        // LandingPage.closeAdAlert()
     }
 
     def setup() {

@@ -41,6 +41,11 @@ A quick setup for test automation in <a href='https://learn.microsoft.com/en-us/
 <br />
 <br />
 
+> ### **python-robot-framework-browser-library**
+A quick setup for test automation in [Python](https://www.python.org/) using [Robot Framework](https://robotframework.org/) as a test runner and
+[Browser Library](https://robotframework-browser.org/) as a web driver.
+<br />
+<br />
 
 > ### **dotnet-restapi-with-swagger**
 A quick setup for a <a href='https://dotnet.microsoft.com/'>.NET</a> backend <a href='https://restfulapi.net/'>REST API</a> service with <a href='https://swagger.io/'>Swagger</a>. I used it for my experiments with <a href='https://www.microsoft.com/en-us/sql-server/sql-server-downloads'>MSSQL</a> DB and <a href='https://reactjs.org/'>React.js</a> frontend.

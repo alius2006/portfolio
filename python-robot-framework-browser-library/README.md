@@ -8,7 +8,7 @@
 ## Quick start
 ### Install dependencies
 ```shell
-getDependencies.cmd
+getDependenciesAndRunTests.cmd
 ```
 ### Execute test
 ```shell
